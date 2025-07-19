@@ -1,0 +1,42 @@
+/* InventoryPage.css */
+
+.inventory-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f8fafc;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .inventory-header h1 {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .logout-btn {
+    background-color: #ff4d4f;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .logout-btn:hover {
+    background-color: #d9363e;
+  }
+  
+  .inventory-section {
+    margin-top: 20px;
+  }
+  
