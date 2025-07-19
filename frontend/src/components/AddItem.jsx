@@ -10,6 +10,8 @@ const AddItem = ({ fetchItems }) => {
     description: ''
   });
 
+  const backendUrl = process.env.REACT_APP_API_URL;
+
   const handleChange = (e) => {
     setItem({ ...item, [e.target.name]: e.target.value });
   };
@@ -17,13 +19,15 @@ const AddItem = ({ fetchItems }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/items', item, {
-        headers: { Authorization: localStorage.getItem('token') }
+      await axios.post(`${backendUrl}/api/items`, item, {
+        headers: { Authorization: localStorage.getItem('token') },
+        withCredentials: true  // Optional, in case backend uses cookies
       });
       setItem({ name: '', quantity: '', price: '', description: '' });
       fetchItems();
     } catch (error) {
       alert('Failed to add item.');
+      console.error(error);
     }
   };
 
@@ -62,3 +66,4 @@ const AddItem = ({ fetchItems }) => {
 };
 
 export default AddItem;
+  

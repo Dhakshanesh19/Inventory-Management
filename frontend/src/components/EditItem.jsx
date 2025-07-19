@@ -5,6 +5,8 @@ import './EditItem.css';
 const EditItem = ({ editItem, fetchItems, clearEdit }) => {
   const [item, setItem] = useState(editItem);
 
+  const backendUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     setItem(editItem);
   }, [editItem]);
@@ -16,13 +18,15 @@ const EditItem = ({ editItem, fetchItems, clearEdit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/items/${item._id}`, item, {
-        headers: { Authorization: localStorage.getItem('token') }
+      await axios.put(`${backendUrl}/api/items/${item._id}`, item, {
+        headers: { Authorization: localStorage.getItem('token') },
+        withCredentials: true  // Optional: only if backend uses cookies
       });
       fetchItems();
       clearEdit();
     } catch (error) {
       alert('Update failed.');
+      console.error(error);
     }
   };
 

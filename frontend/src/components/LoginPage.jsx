@@ -8,15 +8,20 @@ const LoginPage = ({ setToken }) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const backendUrl = process.env.REACT_APP_API_URL;
+
   const login = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const res = await axios.post(`${backendUrl}/api/auth/login`, { email, password }, {
+        withCredentials: true  // Optional: only if backend uses cookies
+      });
       localStorage.setItem('token', res.data.token);
       setToken(res.data.token);
-      navigate('/inventory'); // Redirect after successful login
+      navigate('/inventory');  // Redirect after successful login
     } catch (err) {
       alert('Invalid email or password.');
+      console.error(err);
     }
   };
 

@@ -7,17 +7,25 @@ import ItemList from './components/ItemList';
 import EditItem from './components/EditItem';
 import LoginPage from './components/LoginPage';
 import SignupPage from './components/SignupPage';
-import './InventoryPage.css'
+import './InventoryPage.css';
+
 const InventoryPage = ({ token, setToken }) => {
   const [items, setItems] = useState([]);
   const [editItem, setEditItem] = useState(null);
 
+  const backendUrl = process.env.REACT_APP_API_URL;
+
   const fetchItems = useCallback(async () => {
-    const res = await axios.get('http://localhost:5000/api/items', {
-      headers: { Authorization: token }
-    });
-    setItems(res.data);
-  }, [token]);
+    try {
+      const res = await axios.get(`${backendUrl}/api/items`, {
+        headers: { Authorization: token },
+        withCredentials: true,  // Optional, if backend uses cookies
+      });
+      setItems(res.data);
+    } catch (err) {
+      console.error('Failed to fetch items:', err);
+    }
+  }, [token, backendUrl]);
 
   useEffect(() => {
     if (token) fetchItems();
@@ -53,7 +61,7 @@ const InventoryPage = ({ token, setToken }) => {
       </div>
     </div>
   );
-};   // ✅ Properly closed InventoryPage component
+};
 
 const App = () => {
   const [token, setToken] = useState(localStorage.getItem('token'));
@@ -64,7 +72,6 @@ const App = () => {
         <Route path="/" element={<LoginPage setToken={setToken} />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/inventory" element={<InventoryPage token={token} setToken={setToken} />} />
-        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

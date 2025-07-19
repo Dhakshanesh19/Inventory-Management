@@ -3,14 +3,18 @@ import axios from 'axios';
 import './ItemList.css';
 
 const ItemList = ({ items, fetchItems, setEditItem }) => {
+  const backendUrl = process.env.REACT_APP_API_URL;
+
   const deleteItem = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/items/${id}`, {
-        headers: { Authorization: localStorage.getItem('token') }
+      await axios.delete(`${backendUrl}/api/items/${id}`, {
+        headers: { Authorization: localStorage.getItem('token') },
+        withCredentials: true  // Optional, only if backend uses cookies
       });
       fetchItems();
     } catch (error) {
       alert('Delete failed.');
+      console.error(error);
     }
   };
 

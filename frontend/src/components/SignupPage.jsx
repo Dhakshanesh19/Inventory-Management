@@ -7,14 +7,19 @@ const SignupPage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
 
+  const backendUrl = process.env.REACT_APP_API_URL;
+
   const signup = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/signup', formData);
+      await axios.post(`${backendUrl}/api/auth/signup`, formData, {
+        withCredentials: true  // Optional, if backend uses cookies
+      });
       alert('Signup successful! Please login.');
-      navigate('/'); // Redirect to login
+      navigate('/');  // Redirect to login page
     } catch (err) {
       alert('Signup failed. Try again.');
+      console.error(err);
     }
   };
 
