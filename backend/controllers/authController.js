@@ -7,17 +7,21 @@ exports.signup = async (req, res) => {
 
   try {
     const existingUser = await User.findOne({ email });
-    if (existingUser) return res.status(400).json({ msg: 'Email already exists' });
+    if (existingUser) {
+      return res.status(400).json({ msg: 'Email already exists' });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-    res.status(201).json({ msg: 'Signup successful' });
+    return res.status(201).json({ msg: 'Signup successful' });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Signup failed', error: err.message });
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Signup Error:', err.message);
+    }
+    res.status(500).json({ msg: 'Signup failed. Please try again.' });
   }
 };
 
@@ -26,14 +30,18 @@ exports.login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ msg: 'Invalid email or password' });
+    if (!user) {
+      return res.status(400).json({ msg: 'Invalid email or password' });
+    }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ msg: 'Invalid email or password' });
+    if (!isMatch) {
+      return res.status(400).json({ msg: 'Invalid email or password' });
+    }
 
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET || 'secretkey',
+      process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
 
@@ -47,7 +55,9 @@ exports.login = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ msg: 'Login failed', error: err.message });
+    if (process.env.NODE_ENV !== 'production') {
+      console.error('Login Error:', err.message);
+    }
+    res.status(500).json({ msg: 'Login failed. Please try again.' });
   }
 };

@@ -3,6 +3,7 @@ const router = express.Router();
 const itemController = require('../controllers/itemController');
 const authMiddleware = require('../middleware/authMiddleware');
 
+// Protected Routes
 router.get('/', authMiddleware, itemController.getItems);
 router.post('/', authMiddleware, itemController.addItem);
 router.put('/:id', authMiddleware, itemController.updateItem);
