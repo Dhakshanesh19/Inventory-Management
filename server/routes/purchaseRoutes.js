@@ -1,7 +1,7 @@
 // server/routes/purchaseRoutes.js
 const express = require('express');
 const { getPurchaseOrders, createPurchaseOrder, receivePurchaseOrder } = require('../controllers/purchaseController');
-const protect = require('../middleware/authMiddleware');
+const protect = require('../middleware/protect');
 const authorize = require('../middleware/rbacMiddleware');
 const router = express.Router();
 

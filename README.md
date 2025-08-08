@@ -1,70 +1,212 @@
-# Getting Started with Create React App
+# Inventory Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-stack MERN (MongoDB, Express.js, React.js, Node.js) inventory management system with user authentication, role-based access control, and comprehensive inventory tracking features.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **User Authentication & Authorization**
+  - User registration and login
+  - Session-based authentication
+  - Role-based access control (Admin, Inventory Manager, Sales Staff, Purchase Staff)
 
-### `npm start`
+- **Inventory Management**
+  - Product catalog with SKU tracking
+  - Stock level monitoring
+  - Low stock alerts
+  - Product variants support
+  - Batch tracking for perishable items
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Supplier & Customer Management**
+  - Supplier information tracking
+  - Customer database
+  - Contact management
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Purchase & Sales Management**
+  - Purchase order creation
+  - Sales order processing
+  - GRN (Goods Received Note) management
+  - Invoice generation
 
-### `npm test`
+- **Reporting & Analytics**
+  - Sales reports
+  - Stock summary reports
+  - Low stock alerts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
 
-### `npm run build`
+- Node.js (v14 or higher)
+- MongoDB (v4.4 or higher)
+- npm or yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Installation & Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 1. Clone the repository
+```bash
+git clone <repository-url>
+cd inventory1
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Backend Setup
 
-### `npm run eject`
+Navigate to the server directory:
+```bash
+cd server
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Install dependencies:
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Create a `.env` file in the server directory:
+```bash
+# Create .env file
+NODE_ENV=development
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/inventory_management
+SESSION_SECRET=your-super-secret-session-key-change-this-in-production
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 3. Frontend Setup
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Navigate to the client directory:
+```bash
+cd ../client
+```
 
-## Learn More
+Install dependencies:
+```bash
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 4. Database Setup
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Make sure MongoDB is running on your system. If you're using MongoDB locally, start the MongoDB service:
 
-### Code Splitting
+**Windows:**
+```bash
+# Start MongoDB service
+net start MongoDB
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+**macOS/Linux:**
+```bash
+# Start MongoDB service
+sudo systemctl start mongod
+```
 
-### Analyzing the Bundle Size
+## Running the Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 1. Start the Backend Server
 
-### Making a Progressive Web App
+In the server directory:
+```bash
+npm run dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The server will start on `http://localhost:5000`
 
-### Advanced Configuration
+### 2. Start the Frontend Application
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+In the client directory (open a new terminal):
+```bash
+npm start
+```
 
-### Deployment
+The React app will start on `http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### 3. Access the Application
 
-### `npm run build` fails to minify
+Open your browser and navigate to `http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Default User Setup
+
+After starting the application for the first time, you can register a new user through the registration page. The first user will have default permissions.
+
+## API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/logout` - User logout
+- `GET /api/auth/current-user` - Get current user info
+
+### Products
+- `GET /api/products` - Get all products
+- `POST /api/products` - Create new product
+- `GET /api/products/:id` - Get product by ID
+- `PUT /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product
+- `GET /api/products/low-stock` - Get low stock products
+
+### Suppliers
+- `GET /api/suppliers` - Get all suppliers
+- `POST /api/suppliers` - Create new supplier
+
+### Customers
+- `GET /api/customers` - Get all customers
+- `POST /api/customers` - Create new customer
+
+### Purchases
+- `GET /api/purchases` - Get all purchase orders
+- `POST /api/purchases` - Create new purchase order
+
+### Sales
+- `GET /api/sales` - Get all sales orders
+- `POST /api/sales` - Create new sales order
+
+## Project Structure
+
+```
+inventory1/
+├── client/                 # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── api/           # API functions
+│   │   ├── components/    # React components
+│   │   ├── context/       # React context providers
+│   │   ├── pages/         # Page components
+│   │   └── ...
+│   └── package.json
+├── server/                # Node.js backend
+│   ├── config/           # Database configuration
+│   ├── controllers/      # Route controllers
+│   ├── middleware/       # Custom middleware
+│   ├── models/          # MongoDB models
+│   ├── routes/          # API routes
+│   └── server.js        # Main server file
+└── README.md
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **MongoDB Connection Error**
+   - Ensure MongoDB is running
+   - Check the MONGO_URI in your .env file
+   - Verify MongoDB is accessible on the specified port
+
+2. **Port Already in Use**
+   - Change the PORT in the .env file
+   - Kill processes using the default ports
+
+3. **CORS Errors**
+   - The backend is configured to allow requests from `http://localhost:3000`
+   - Ensure both frontend and backend are running on the correct ports
+
+4. **Session Issues**
+   - Clear browser cookies and local storage
+   - Restart both frontend and backend servers
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the ISC License.

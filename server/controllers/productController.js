@@ -71,6 +71,20 @@ const updateProduct = async (req, res) => {
   }
 };
 
+// @desc    Get low stock products
+// @route   GET /api/products/low-stock
+// @access  Private (All authenticated users)
+const getLowStockProducts = async (req, res) => {
+  try {
+    const lowStockProducts = await Product.find({
+      $expr: { $lte: ['$quantity', '$reorderLevel'] }
+    });
+    res.json(lowStockProducts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching low stock products', error: error.message });
+  }
+};
+
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private (Admin, Inventory Manager)
@@ -85,10 +99,35 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+
+// @desc    Get products expiring soon
+// @route   GET /api/products/expiring
+// @access  Private (All authenticated users)
+const getExpiringProducts = async (req, res) => {
+  try {
+    const today = new Date();
+    const soon = new Date();
+    soon.setDate(today.getDate() + 30); // next 30 days
+
+    // Adjust "expiryDate" to match your actual field name in Product model
+    const expiringProducts = await Product.find({
+      expiryDate: { $gte: today, $lte: soon }
+    });
+
+    res.json(expiringProducts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching expiring products', error: error.message });
+  }
+};
+
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  getLowStockProducts,
+  getExpiringProducts // make sure it's exported here
+
 };

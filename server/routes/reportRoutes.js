@@ -1,7 +1,7 @@
 // server/routes/reportRoutes.js
 const express = require('express');
 const { getLowStockReport, getStockSummary, getSalesReport } = require('../controllers/reportController');
-const protect = require('../middleware/authMiddleware');
+const protect = require('../middleware/protect');
 const authorize = require('../middleware/rbacMiddleware');
 const router = express.Router();
 

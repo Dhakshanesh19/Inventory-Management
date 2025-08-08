@@ -15,12 +15,16 @@ const registerUser = async (req, res) => {
     // On successful registration, create a session
     req.session.userId = user._id;
 
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    });
+    res.json({
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        message: 'Success'
+      });
+      
   } else {
     res.status(400).json({ message: 'Invalid user data' });
   }
@@ -36,11 +40,15 @@ const loginUser = async (req, res) => {
     req.session.userId = user._id;
 
     res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-    });
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        message: 'Success'
+      });
+      
   } else {
     res.status(401).json({ message: 'Invalid email or password' });
   }

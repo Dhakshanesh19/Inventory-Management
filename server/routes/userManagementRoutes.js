@@ -1,7 +1,7 @@
 // server/routes/userManagementRoutes.js
 const express = require('express');
 const { getUsers, createUser, updateUser, deleteUser } = require('../controllers/userManagementController');
-const protect = require('../middleware/authMiddleware');
+const protect = require('../middleware/protect');
 const authorize = require('../middleware/rbacMiddleware');
 const router = express.Router();
 

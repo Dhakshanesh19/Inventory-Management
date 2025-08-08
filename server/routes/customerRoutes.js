@@ -1,7 +1,7 @@
 // server/routes/customerRoutes.js
 const express = require('express');
 const { getCustomers, getCustomerById, createCustomer, updateCustomer, deleteCustomer } = require('../controllers/customerController');
-const protect = require('../middleware/authMiddleware');
+const protect = require('../middleware/protect');
 const authorize = require('../middleware/rbacMiddleware');
 const router = express.Router();
 
